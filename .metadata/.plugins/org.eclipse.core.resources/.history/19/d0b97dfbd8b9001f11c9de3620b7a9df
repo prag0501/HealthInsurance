@@ -1,0 +1,5 @@
+package com.healthinsurence.otp;
+
+public class EmailService {
+
+}
