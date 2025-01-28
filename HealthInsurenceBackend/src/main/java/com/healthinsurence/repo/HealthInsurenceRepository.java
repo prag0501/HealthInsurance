@@ -12,4 +12,5 @@ public interface HealthInsurenceRepository extends JpaRepository<HealthInsurence
 	Optional<HealthInsurenceModel> findByMobileNo(String mobileNo);
     Optional<HealthInsurenceModel> findByEmail(String email);
 	Optional<HealthInsurenceModel> findByMobileNoOrEmail(String mobileNo, String email);
+	Optional<HealthInsurenceModel> findByCustomerId(String customerId);
 }

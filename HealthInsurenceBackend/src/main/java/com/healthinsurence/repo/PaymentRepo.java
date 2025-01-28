@@ -1,0 +1,6 @@
+package com.healthinsurence.repo;
+
+public interface PaymentRepo {
+	
+
+}

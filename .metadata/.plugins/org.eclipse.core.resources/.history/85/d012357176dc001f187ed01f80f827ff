@@ -1,0 +1,5 @@
+package com.healthinsurence.model;
+
+public class PaymentModel {
+
+}

@@ -1,0 +1,5 @@
+package com.healthinsurence.dto;
+
+public class PRPDto {
+
+}
