@@ -1,10 +1,9 @@
 package com.healthinsurence.controller;
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,17 +12,33 @@ import org.springframework.web.bind.annotation.RestController;
 import com.healthinsurence.dto.PRPDto;
 import com.healthinsurence.service.PRPService;
 
+
+
 @RestController
 @RequestMapping("/policy")
-@CrossOrigin(origins="*") // Allows CORS from all origins
+@CrossOrigin(origins="*") 
 public class PRPController {
 
 @Autowired
-private PRPService prpservice; // Inject the PRPService
+private PRPService prpService;
 
-@PostMapping("/id") // POST endpoint to save a relation
+
+@PostMapping("/id")
 public ResponseEntity<?> saveRelation(@RequestBody PRPDto prpDto) {
-return prpservice.savePRP(prpDto); // Delegate the request to the service layer
+return prpService.savePRP(prpDto); 
 }
+
+@GetMapping("/customerdetails/{customerId}")
+public ResponseEntity<?> getUserDetailsByCustomerId(@PathVariable String customerId) {
+return prpService.getUserDetailsByCustomerId(customerId);
+}
+
+
+
+@GetMapping("/customerdetails")
+public ResponseEntity<?> allCustomerDetails() {
+return prpService.allCustomerDetails(); // Call the service to get all customers
+}
+
 }
 

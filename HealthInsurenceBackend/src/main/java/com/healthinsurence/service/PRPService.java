@@ -14,4 +14,11 @@ public interface PRPService {
 
 ResponseEntity<?> savePRP(PRPDto prp);
 
+
+
+ResponseEntity<?> getUserDetailsByCustomerId(String customerId);
+
+
+ResponseEntity<?> allCustomerDetails();
+
 }

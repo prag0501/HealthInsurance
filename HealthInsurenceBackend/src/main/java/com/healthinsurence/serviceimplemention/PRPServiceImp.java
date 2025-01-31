@@ -1,6 +1,7 @@
 package com.healthinsurence.serviceimplemention;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,30 +22,48 @@ import com.healthinsurence.service.PRPService;
 public class PRPServiceImp implements PRPService {
 
 @Autowired
-private PRPRepo repository; // PRP repository
+private PRPRepo prpRepo; // PRP repository
 
 @Autowired
-private HealthInsurenceRepository repo; // Health insurance repository
+private HealthInsurenceRepository healthInsurenceRepo; // Health Insurance repository
 
+/**
+* Save PRP (Personal Relation Plan) details for a customer.
+*/
 @Override
 public ResponseEntity<?> savePRP(PRPDto prpDto) {
 try {
 // Check if the customer exists in HealthInsuranceModel
-Optional< HealthInsurenceModel> customerData = repo.findByCustomerId(prpDto.getCustomerId());
+Optional< HealthInsurenceModel> customerData = healthInsurenceRepo.findByCustomerId(prpDto.getCustomerId());
 
-if (!customerData.isPresent()) {
+if (customerData.isEmpty()) {
 // If the customer is not found, return a 404 NOT_FOUND response
 return ResponseEntity.status(HttpStatus.NOT_FOUND)
 .body("Customer not found for the given ID: " + prpDto.getCustomerId());
 }
 
 // Check if an entry for the same customerId already exists in PRPModel (duplicate check)
-Optional< PRPModel> existingEntry = repository.findByCustomerId(prpDto.getCustomerId());
+Optional< PRPModel> existingEntry = prpRepo.findByCustomerId(prpDto.getCustomerId());
 
 if (existingEntry.isPresent()) {
 // If the entry already exists, return a 409 CONFLICT response
 return ResponseEntity.status(HttpStatus.CONFLICT)
 .body("Duplicate entry is not allowed for customer ID: " + prpDto.getCustomerId());
+}
+
+// Check if an entry with the same address already exists for the given customerId
+Optional< PRPModel> duplicateAddress = prpRepo.findByHouseNoAndStreetAndCityAndStateAndPincode(
+prpDto.getHouseNo(),
+prpDto.getStreet(),
+prpDto.getCity(),
+prpDto.getState(),
+prpDto.getPincode()
+);
+
+if (duplicateAddress.isPresent()) {
+// If the address already exists, return a 409 CONFLICT response
+return ResponseEntity.status(HttpStatus.CONFLICT)
+.body("Duplicate address is not allowed for customer ID: " + prpDto.getCustomerId());
 }
 
 // Create and populate the PRPModel
@@ -57,11 +76,11 @@ prpModel.setState(prpDto.getState());
 prpModel.setPincode(prpDto.getPincode());
 
 // Save the new PRPModel to the repository
-repository.save(prpModel);
+prpRepo.save(prpModel);
 
 // Return a success response if the entry is saved
 return ResponseEntity.status(HttpStatus.CREATED)
-.body("Relation saved successfully for customer ID: " + prpDto.getCustomerId());
+.body("Address details saved successfully for customer ID: " + prpDto.getCustomerId());
 } catch (Exception e) {
 // Catch any unexpected errors and return a 500 INTERNAL_SERVER_ERROR response
 e.printStackTrace();
@@ -69,4 +88,53 @@ return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 .body("An error occurred while saving the relation.");
 }
 }
+
+/**
+* Retrieve user details by customer ID.
+*/
+@Override
+public ResponseEntity<?> getUserDetailsByCustomerId(String customerId) {
+try {
+// Fetch the user details from the HealthInsuranceModel by customerId
+Optional< PRPModel> customerData = prpRepo.findByCustomerId(customerId);
+
+if (customerData.isPresent()) {
+// Return the user details if found
+return ResponseEntity.status(HttpStatus.OK).body(customerData.get());
+} else {
+// If the customer is not found, return a 404 NOT_FOUND response
+return ResponseEntity.status(HttpStatus.NOT_FOUND)
+.body("Customer not found for the given ID: " + customerId);
+}
+} catch (Exception e) {
+// Catch any unexpected errors and return a 500 INTERNAL_SERVER_ERROR response
+e.printStackTrace();
+return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+.body("An error occurred while retrieving user details.");
+}
+}
+
+@Override
+public ResponseEntity<?> allCustomerDetails() {
+try {
+// Fetch all customers (all records in the PRPModel)
+List< PRPModel> allCustomers = prpRepo.findAll();
+
+// Check if no customers are found
+if (allCustomers.isEmpty()) {
+return ResponseEntity.status(HttpStatus.NOT_FOUND)
+.body("No customers found.");
+}
+
+// Return the list of customers if found
+return ResponseEntity.status(HttpStatus.OK).body(allCustomers);
+} catch (Exception e) {
+// Catch any unexpected errors and return a 500 INTERNAL_SERVER_ERROR response
+e.printStackTrace();
+return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+.body("An error occurred while retrieving all customers.");
+}
+}
+
+
 }

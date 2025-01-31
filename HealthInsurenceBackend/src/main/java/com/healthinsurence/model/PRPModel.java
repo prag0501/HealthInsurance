@@ -23,6 +23,7 @@ public class PRPModel {
 	private String state;
 	private String pincode;
 	private String customerId;
+	
 	public String getHouseNo() {
 	return houseNo;
 	}

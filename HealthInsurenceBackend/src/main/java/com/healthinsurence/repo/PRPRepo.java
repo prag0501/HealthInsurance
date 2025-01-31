@@ -15,4 +15,7 @@ public interface PRPRepo extends JpaRepository< PRPModel, Long>
 
 Optional< PRPModel> findByCustomerId(String customerId);
 
+Optional<PRPModel> findByHouseNoAndStreetAndCityAndStateAndPincode(String houseNo, String street, String city,
+		String state, String pincode);
+
 }
