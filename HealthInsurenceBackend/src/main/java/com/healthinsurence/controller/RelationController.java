@@ -20,26 +20,21 @@ import com.healthinsurence.service.RealationService;
 public class RelationController {
 	@Autowired
 	private RealationService service;
-	private RelationDto relation;
-
-//	@PostMapping("/relationdetails")
-//	public ResponseEntity<?> post(@RequestBody RelationDto relation) {
-//		return service.saveHealthInsurence(relation);
-//	}
+	
+	@PostMapping("/check-customerId")
+	public ResponseEntity<?> checkCustomerDetails(@RequestBody RelationDto relation) {
+		return service.checkCustomerDetails(relation);
+	}
+	
 
 	@GetMapping("/all")
 	public ResponseEntity<?> getAllRelations() {
 		return service.getAllRelations();
 	}
+	
 
-	@PostMapping("/check-customerId")
-	public ResponseEntity<?> checkCustomerDetails(@RequestBody RelationDto relation) {
-		return service.checkCustomerDetails(relation);
-	}
 	@GetMapping("/customer-details")
 	public ResponseEntity<?> customerDetails(@RequestParam String customerId) {
-	   // RelationDto relation = new RelationDto();
-	    //relation.setCustomerId(customerId);
 	    return service.customerDetails(customerId);
 	}
 

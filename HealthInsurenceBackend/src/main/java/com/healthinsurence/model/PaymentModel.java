@@ -1,20 +1,27 @@
 package com.healthinsurence.model;
 
+import java.time.LocalDate;
+
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+
+@Entity
 public class PaymentModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
-    private String customerId;
-    private String paymentId;
-    private String premeiumAmount;
-    private String sumAssuredAmount;
-    private String year;
-    private String diseaseAmount;
-    private String discountAmount;
+	private String customerId;
+	private String paymentId;
+	private String premiumAmount;
+	private String sumAssuredAmount;
+	private String year;
+	private String diseaseAmount;
+	private String discountAmount;
+	private LocalDate startDate;
+	private LocalDate endDate;
 	public Long getId() {
 		return Id;
 	}
@@ -33,11 +40,11 @@ public class PaymentModel {
 	public void setPaymentId(String paymentId) {
 		this.paymentId = paymentId;
 	}
-	public String getPremeiumAmount() {
-		return premeiumAmount;
+	public String getPremiumAmount() {
+		return premiumAmount;
 	}
-	public void setPremeiumAmount(String premeiumAmount) {
-		this.premeiumAmount = premeiumAmount;
+	public void setPremiumAmount(String premiuAmount) {
+		this.premiumAmount = premiuAmount;
 	}
 	public String getSumAssuredAmount() {
 		return sumAssuredAmount;
@@ -63,7 +70,41 @@ public class PaymentModel {
 	public void setDiscountAmount(String discountAmount) {
 		this.discountAmount = discountAmount;
 	}
-	
-    
+	public LocalDate getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(LocalDate startDate) {
+		this.startDate = startDate;
+	}
+	public LocalDate getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
+	}
+	public PaymentModel(Long id, String customerId, String paymentId, String premiumAmount, String sumAssuredAmount,
+			String year, String diseaseAmount, String discountAmount, LocalDate startDate, LocalDate endDate) {
+		super();
+		Id = id;
+		this.customerId = customerId;
+		this.paymentId = paymentId;
+		this.premiumAmount = premiumAmount;
+		this.sumAssuredAmount = sumAssuredAmount;
+		this.year = year;
+		this.diseaseAmount = diseaseAmount;
+		this.discountAmount = discountAmount;
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
+	public PaymentModel() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+
+
+
+
 
 }

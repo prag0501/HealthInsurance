@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.healthinsurence.dto.HealthInsurenceDto;
 import com.healthinsurence.model.HealthInsurenceModel;
 import com.healthinsurence.otp.EmailService;
-import com.healthinsurence.otp.OtpService;
+//import com.healthinsurence.otp.OtpService;
 import com.healthinsurence.service.HealthInsurenceService;
 
 import jakarta.mail.MessagingException;
@@ -29,8 +29,8 @@ public class HealthInsurenceController {
 
     @Autowired
     private HealthInsurenceService service;
-    @Autowired
-    private OtpService otpservice;
+//    @Autowired
+//    private OtpService otpservice;
     @Autowired
     private EmailService emailService;
 

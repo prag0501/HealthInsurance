@@ -1,8 +1,6 @@
 package com.healthinsurence.repo;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,9 +9,6 @@ import com.healthinsurence.model.RelationModel;
 @Repository
 public interface RelationRepository extends JpaRepository<RelationModel, Long> {
 
-//	Optional<RelationModel> findByCustomerId(String customerId);
-
-	//Optional<RelationModel> findByCustomerIdAndRelationName(String customerId, String relationName);
 
 	List<RelationModel> findByCustomerId(String customerId);
 		
