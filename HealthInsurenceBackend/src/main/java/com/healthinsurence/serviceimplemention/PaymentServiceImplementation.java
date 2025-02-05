@@ -56,7 +56,7 @@ import com.healthinsurence.service.PaymentService;
         paymentModel.setDiseaseAmount(paymentDto.getDiseaseAmount());
         paymentModel.setDiscountAmount(paymentDto.getDiscountAmount());
         paymentModel.setStartDate(LocalDate.now());
-        paymentModel.setEndDate(LocalDate.now().plusYears(2));
+        paymentModel.setEndDate(LocalDate.now().plusYears(2).minusDays(1));
 
 
         paymentRepo.save(paymentModel);
