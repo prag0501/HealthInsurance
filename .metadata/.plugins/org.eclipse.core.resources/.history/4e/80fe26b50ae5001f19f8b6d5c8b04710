@@ -23,6 +23,30 @@ public class RelationServiceImp implements RealationService {
 
     @Autowired
     private HealthInsurenceRepository repo;
+//    @Override
+//    public ResponseEntity<?> saveHealthInsurence(RelationDto relation) {
+//        Optional<RelationModel> existingRelation = repository.findByCustomerIdAndRelationPersonName(relation.getCustomerId(),relation.getRelationPersonName());
+//
+//        if (existingRelation.isPresent()) {
+//            return ResponseEntity.status(HttpStatus.CONFLICT)
+//                    .body("Customer ID already exists.");
+//        }
+//        else
+//        {
+//        RelationModel relationModel = new RelationModel();
+//        relationModel.setCustomerId(relation.getCustomerId());
+//        relationModel.setRelationName(relation.getRelationName());
+//        relationModel.setAgeOfTheRelation(relation.getAgeOfTheRelation());
+//        relationModel.setRelationPersonName(relation.getRelationPersonName());
+//        relationModel.setDisease(relation.getDisease());
+//
+//        repository.save(relationModel);
+//   
+//
+//        return ResponseEntity.status(HttpStatus.CREATED)
+//                .body("Relation saved successfully.");
+//        }
+//    }
     
     @Override
     public ResponseEntity<?> saveHealthInsurence(RelationDto relation) {
