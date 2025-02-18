@@ -18,28 +18,8 @@ public class RelationModel {
 	private String disease;
 	private String gender;
 	private String diseaseText; 
+	private String paymentId;
 	
-	
-	
-	
-	public String getGender() {
-		return gender;
-	}
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-	public String getDiseaseText() {
-		return diseaseText;
-	}
-	public void setDiseaseText(String diseaseText) {
-		this.diseaseText = diseaseText;
-	}
-	public String getDisease() {
-		return disease;
-	}
-	public void setDisease(String disease) {
-		this.disease = disease;
-	}
 	public long getId() {
 		return Id;
 	}
@@ -70,9 +50,32 @@ public class RelationModel {
 	public void setRelationPersonName(String relationPersonName) {
 		this.relationPersonName = relationPersonName;
 	}
-	
+	public String getDisease() {
+		return disease;
+	}
+	public void setDisease(String disease) {
+		this.disease = disease;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public String getDiseaseText() {
+		return diseaseText;
+	}
+	public void setDiseaseText(String diseaseText) {
+		this.diseaseText = diseaseText;
+	}
+	public String getPaymentId() {
+		return paymentId;
+	}
+	public void setPaymentId(String paymentId) {
+		this.paymentId = paymentId;
+	}
 	public RelationModel(long id, String relationName, String ageOfTheRelation, String customerId,
-			String relationPersonName, String disease, String gender, String diseaseText) {
+			String relationPersonName, String disease, String gender, String diseaseText, String paymentId) {
 		super();
 		Id = id;
 		this.relationName = relationName;
@@ -82,13 +85,18 @@ public class RelationModel {
 		this.disease = disease;
 		this.gender = gender;
 		this.diseaseText = diseaseText;
+		this.paymentId = paymentId;
 	}
-
-	
 	public RelationModel() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	public void setFullName(String fullName) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 	
 	
 }

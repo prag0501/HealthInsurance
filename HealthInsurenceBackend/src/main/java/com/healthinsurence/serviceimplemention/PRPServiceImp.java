@@ -2,6 +2,7 @@ package com.healthinsurence.serviceimplemention;
 
 
 import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,5 +137,23 @@ return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 }
 }
 
+@Override
+public ResponseEntity<?> updatePrpDto(String customerId, PRPDto prpDto) {
+    Optional<PRPModel> customerData = prpRepo.findByCustomerId(customerId);
 
+    if (customerData.isPresent()) {
+        PRPModel prpModel = customerData.get();
+        prpModel.setHouseNo(prpDto.getHouseNo());
+        prpModel.setStreet(prpDto.getStreet());
+        prpModel.setCity(prpDto.getCity());
+        prpModel.setState(prpDto.getState());
+        prpModel.setPincode(prpDto.getPincode());
+
+        prpRepo.save(prpModel);
+        return ResponseEntity.ok("Address updated successfully for customer ID: " + customerId);
+    } else {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("Customer not found for the given ID: " + customerId);
+    }
+}
 }

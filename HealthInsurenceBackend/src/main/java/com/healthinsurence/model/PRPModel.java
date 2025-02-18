@@ -11,12 +11,6 @@ public class PRPModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	public long getId() {
-	return id;
-	}
-	public void setId(long id) {
-	this.id = id;
-	}
 	private String houseNo;
 	private String street;
 	private String city;
@@ -24,6 +18,13 @@ public class PRPModel {
 	private String pincode;
 	private String customerId;
 	
+	
+	public long getId() {
+	return id;
+	}
+	public void setId(long id) {
+	this.id = id;
+	}
 	public String getHouseNo() {
 	return houseNo;
 	}

@@ -55,6 +55,7 @@ import com.healthinsurence.service.PaymentService;
         paymentModel.setYear(paymentDto.getYear());
         paymentModel.setDiseaseAmount(paymentDto.getDiseaseAmount());
         paymentModel.setDiscountAmount(paymentDto.getDiscountAmount());
+        paymentModel.setInsuranceType(paymentDto.getInsuranceType());
         paymentModel.setStartDate(LocalDate.now());
         paymentModel.setEndDate(LocalDate.now().plusYears(2).minusDays(1));
 

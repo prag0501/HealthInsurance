@@ -6,6 +6,7 @@ public class HealthInsurenceDto {
 	    private String email;
 	    private String gender;
 	    private String customerId;
+	    
 		public String getFullName() {
 			return fullName;
 		}

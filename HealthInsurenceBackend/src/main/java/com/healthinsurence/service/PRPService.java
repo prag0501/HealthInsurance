@@ -21,4 +21,7 @@ ResponseEntity<?> getUserDetailsByCustomerId(String customerId);
 
 ResponseEntity<?> allCustomerDetails();
 
+
+ResponseEntity<?> updatePrpDto(String customerId, PRPDto prpDto);
+
 }

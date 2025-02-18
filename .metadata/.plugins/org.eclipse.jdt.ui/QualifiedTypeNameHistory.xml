@@ -7,7 +7,6 @@
     <fullyQualifiedTypeName name="org.springframework.http.ResponseEntity"/>
     <fullyQualifiedTypeName name="org.springframework.http.HttpStatus"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
-    <fullyQualifiedTypeName name="com.healthinsurence.model.HealthInsurenceModel"/>
     <fullyQualifiedTypeName name="jakarta.persistence.GenerationType"/>
     <fullyQualifiedTypeName name="org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration"/>
     <fullyQualifiedTypeName name="org.springframework.stereotype.Repository"/>
@@ -19,10 +18,25 @@
     <fullyQualifiedTypeName name="org.springframework.stereotype.Service"/>
     <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
-    <fullyQualifiedTypeName name="com.healthinsurence.repo.HealthInsurenceRepository"/>
     <fullyQualifiedTypeName name="java.lang.Override"/>
     <fullyQualifiedTypeName name="jakarta.persistence.Id"/>
     <fullyQualifiedTypeName name="jakarta.persistence.GeneratedValue"/>
     <fullyQualifiedTypeName name="jakarta.persistence.Entity"/>
     <fullyQualifiedTypeName name="jakarta.persistence.Table"/>
+    <fullyQualifiedTypeName name="java.net.http.HttpHeaders"/>
+    <fullyQualifiedTypeName name="org.springframework.http.HttpHeaders"/>
+    <fullyQualifiedTypeName name="com.healthinsurence.serviceimplemention.InVoiceServiceImpl"/>
+    <fullyQualifiedTypeName name="com.healthinsurence.repo.RelationRepository"/>
+    <fullyQualifiedTypeName name="com.healthinsurence.repo.PRPRepo"/>
+    <fullyQualifiedTypeName name="com.healthinsurence.repo.HealthInsurenceRepository"/>
+    <fullyQualifiedTypeName name="com.lowagie.text.Element"/>
+    <fullyQualifiedTypeName name="com.lowagie.text.Document"/>
+    <fullyQualifiedTypeName name="com.lowagie.text.Image"/>
+    <fullyQualifiedTypeName name="com.lowagie.text.Font"/>
+    <fullyQualifiedTypeName name="com.lowagie.text.List"/>
+    <fullyQualifiedTypeName name="com.healthinsurence.model.HealthInsurenceModel"/>
+    <fullyQualifiedTypeName name="com.healthinsurence.model.PRPModel"/>
+    <fullyQualifiedTypeName name="com.healthinsurence.model.PaymentModel"/>
+    <fullyQualifiedTypeName name="com.healthinsurence.model.RelationModel"/>
+    <fullyQualifiedTypeName name="com.healthinsurence.repo.PaymentRepo"/>
 </qualifiedTypeNameHistroy>

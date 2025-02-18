@@ -10,27 +10,7 @@ private long Id;
 	private String disease;
 	private String gender;
 	private String diseaseText; 
-	
-	
-	
-	public String getGender() {
-		return gender;
-	}
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-	public String getDiseaseText() {
-		return diseaseText;
-	}
-	public void setDiseaseText(String diseaseText) {
-		this.diseaseText = diseaseText;
-	}
-	public String getDisease() {
-		return disease;
-	}
-	public void setDisease(String disease) {
-		this.disease = disease;
-	}
+	private String paymentId;
 	public long getId() {
 		return Id;
 	}
@@ -58,8 +38,35 @@ private long Id;
 	public String getRelationPersonName() {
 		return relationPersonName;
 	}
+	public void setRelationPersonName(String relationPersonName) {
+		this.relationPersonName = relationPersonName;
+	}
+	public String getDisease() {
+		return disease;
+	}
+	public void setDisease(String disease) {
+		this.disease = disease;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public String getDiseaseText() {
+		return diseaseText;
+	}
+	public void setDiseaseText(String diseaseText) {
+		this.diseaseText = diseaseText;
+	}
+	public String getPaymentId() {
+		return paymentId;
+	}
+	public void setPaymentId(String paymentId) {
+		this.paymentId = paymentId;
+	}
 	public RelationDto(long id, String relationName, String ageOfTheRelation, String customerId,
-			String relationPersonName, String disease, String gender, String diseaseText) {
+			String relationPersonName, String disease, String gender, String diseaseText, String paymentId) {
 		super();
 		Id = id;
 		this.relationName = relationName;
@@ -69,15 +76,11 @@ private long Id;
 		this.disease = disease;
 		this.gender = gender;
 		this.diseaseText = diseaseText;
-	}
-	public void setRelationPersonName(String relationPersonName) {
-		this.relationPersonName = relationPersonName;
+		this.paymentId = paymentId;
 	}
 	public RelationDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-	
+
 }

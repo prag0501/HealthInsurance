@@ -1,0 +1,96 @@
+package com.healthinsurence.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.healthinsurence.dto.HealthInsurenceDto;
+import com.healthinsurence.model.HealthInsurenceModel;
+import com.healthinsurence.otp.EmailService;
+//import com.healthinsurence.otp.OtpService;
+import com.healthinsurence.service.HealthInsurenceService;
+
+import jakarta.mail.MessagingException;
+
+@RestController
+@RequestMapping("/register")
+@CrossOrigin(origins="*")
+public class HealthInsurenceController {
+
+
+    @Autowired
+    private HealthInsurenceService service;
+
+    @Autowired
+    private EmailService emailService;
+
+    @PostMapping("/data")
+    public ResponseEntity<?>  post(@RequestBody HealthInsurenceDto health)
+    {
+    	return service.saveHealthInsurence(health);
+    }
+    
+    @GetMapping("/get/{mobileNo}")
+    public ResponseEntity<?> findByMobileNo(@PathVariable String mobileNo)
+    {
+    	return service.findByMobileNo(mobileNo);
+    }
+  
+    @GetMapping("/fetch/{mobileNo}")
+    public ResponseEntity<?> fetchByMobileNo(@PathVariable String mobileNo) {
+        return service.fetchByMobileNo(mobileNo);
+    }
+
+    @GetMapping("/call/{email}")
+    public ResponseEntity<?> findByEmail(@PathVariable String email)
+    {
+    	return service.findByEmail(email);
+    }
+    
+    @GetMapping("/mobile/otp")
+    public ResponseEntity<?> generateOtp() {
+        return service.generateOtp();  
+    }
+    
+    @GetMapping("/send-otp")
+    public String sendOtp(@RequestParam String email) {
+        String otp = emailService.generateOTP();
+        try {
+            emailService.sendOtpEmail(email, otp);
+            return otp ;
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return "Failed to send OTP. Please try again.";
+        }
+    
+   }
+    
+    @GetMapping("/users")
+    public List<HealthInsurenceModel> getAllUsers() {
+        return service.getAllUsers();
+    }
+    
+    @PutMapping("/update/mobile/{customerId}")
+    public ResponseEntity<?> updateMobileNumber(@PathVariable String customerId, @RequestParam String mobileNo) {
+        return service.updateMobileNumber(customerId, mobileNo);
+    }
+
+    // PUT Mapping for updating only Email by customerId
+    @PutMapping("/update/email/{customerId}")
+    public ResponseEntity<?> updateEmail(@PathVariable String customerId, @RequestBody String email) {
+        return service.updateEmail(customerId, email);
+    }
+
+
+}
+

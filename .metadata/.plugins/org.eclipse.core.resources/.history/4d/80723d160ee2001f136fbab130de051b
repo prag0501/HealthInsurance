@@ -1,5 +1,0 @@
-package com.healthinsurence.service;
-
-public interface PaymentService {
-
-}

@@ -103,5 +103,49 @@ public class HealthInsurenceServiceImplementation implements HealthInsurenceServ
 	        return repository.findAll();
 	    }
 	 
-	 
-	}
+	 @Override
+	    public ResponseEntity<?> updateMobileNumber(String customerId, String mobileNo) {
+	        Optional<HealthInsurenceModel> customerData = repository.findByCustomerId(customerId);
+
+	        if (customerData.isPresent()) {
+	            HealthInsurenceModel healthModel = customerData.get();
+	            healthModel.setMobileNo(mobileNo);
+	            repository.save(healthModel);
+	            return ResponseEntity.ok("Mobile number updated successfully for customer ID: " + customerId);
+	        } else {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                    .body("Customer not found for the given ID: " + customerId);
+	        }
+	    }
+
+	    // Update only Email
+	    @Override
+	    public ResponseEntity<?> updateEmail(String customerId, String email) {
+	        Optional<HealthInsurenceModel> customerData = repository.findByCustomerId(customerId);
+
+	        if (customerData.isPresent()) {
+	            HealthInsurenceModel healthModel = customerData.get();
+	            healthModel.setEmail(email);
+	            repository.save(healthModel);
+	            return ResponseEntity.ok("Email updated successfully for customer ID: " + customerId);
+	        } else {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                    .body("Customer not found for the given ID: " + customerId);
+	        }
+	    }
+		@Override
+		public ResponseEntity<?> updateFullName(String customerId, String fullName) {
+			Optional<HealthInsurenceModel> customerData = repository.findByCustomerId(customerId);
+			
+			if(customerData.isPresent()) {
+				HealthInsurenceModel healthModel = customerData.get();
+				healthModel.setFullName(fullName);
+	            repository.save(healthModel);
+	            return ResponseEntity.ok("Name updated successfully for customer ID: " + customerId);
+	        } else {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                    .body("Customer not found for the given ID: " + customerId);
+	        }
+	    }
+
+}

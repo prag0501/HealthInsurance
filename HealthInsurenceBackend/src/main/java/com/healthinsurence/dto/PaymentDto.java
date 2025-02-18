@@ -12,8 +12,10 @@ public class PaymentDto {
 	private String year;
 	private String diseaseAmount;
 	private String discountAmount;
+	private String insuranceType;
 	private LocalDate startDate;
 	private LocalDate endDate;
+	
 	public Long getId() {
 		return Id;
 	}
@@ -35,8 +37,8 @@ public class PaymentDto {
 	public String getPremiumAmount() {
 		return premiumAmount;
 	}
-	public void setPremiumAmount(String premiuAmount) {
-		this.premiumAmount = premiuAmount;
+	public void setPremiumAmount(String premiumAmount) {
+		this.premiumAmount = premiumAmount;
 	}
 	public String getSumAssuredAmount() {
 		return sumAssuredAmount;
@@ -62,6 +64,12 @@ public class PaymentDto {
 	public void setDiscountAmount(String discountAmount) {
 		this.discountAmount = discountAmount;
 	}
+	public String getInsuranceType() {
+		return insuranceType;
+	}
+	public void setInsuranceType(String insuranceType) {
+		this.insuranceType = insuranceType;
+	}
 	public LocalDate getStartDate() {
 		return startDate;
 	}
@@ -71,12 +79,12 @@ public class PaymentDto {
 	public LocalDate getEndDate() {
 		return endDate;
 	}
-	public PaymentDto() {
-		super();
-		// TODO Auto-generated constructor stub
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
 	}
 	public PaymentDto(Long id, String customerId, String paymentId, String premiumAmount, String sumAssuredAmount,
-			String year, String diseaseAmount, String discountAmount, LocalDate startDate, LocalDate endDate) {
+			String year, String diseaseAmount, String discountAmount, String insuranceType, LocalDate startDate,
+			LocalDate endDate) {
 		super();
 		Id = id;
 		this.customerId = customerId;
@@ -86,13 +94,16 @@ public class PaymentDto {
 		this.year = year;
 		this.diseaseAmount = diseaseAmount;
 		this.discountAmount = discountAmount;
+		this.insuranceType = insuranceType;
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}
-	public void setEndDate(LocalDate endDate) {
-		this.endDate = endDate;
+	public PaymentDto() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
-
-
+	
+	
+	
 
 }

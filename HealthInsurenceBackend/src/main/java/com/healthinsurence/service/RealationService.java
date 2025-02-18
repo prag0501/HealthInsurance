@@ -12,6 +12,12 @@ public interface RealationService {
 	ResponseEntity<?> checkCustomerDetails(RelationDto relation);
 
 	ResponseEntity<?> customerDetails(String customerId);
+
+	ResponseEntity<?> getPaymentById(String paymentId);
+
+
+
+	
 	}
 
 
