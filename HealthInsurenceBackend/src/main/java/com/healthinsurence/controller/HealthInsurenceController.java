@@ -90,9 +90,6 @@ public class HealthInsurenceController {
         return service.updateMobileNumber(customerId, mobileNo);
     }
     
-    
-    
-    
     // PUT Mapping for updating only Email by customerId
     @PutMapping("/update/email/{customerId}")
     public ResponseEntity<?> updateEmail(@PathVariable String customerId, @RequestParam String email) {

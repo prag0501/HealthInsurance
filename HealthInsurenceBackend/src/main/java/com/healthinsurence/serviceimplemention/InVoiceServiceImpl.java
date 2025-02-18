@@ -1,7 +1,11 @@
 package com.healthinsurence.serviceimplemention;
 
-import org.springframework.stereotype.Service;
+import java.awt.Color;
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
+import org.springframework.stereotype.Service;
 
 import com.healthinsurence.model.HealthInsurenceModel;
 import com.healthinsurence.model.PaymentModel;
@@ -9,17 +13,6 @@ import com.healthinsurence.model.RelationModel;
 import com.healthinsurence.repo.HealthInsurenceRepository;
 import com.healthinsurence.repo.PaymentRepo;
 import com.healthinsurence.repo.RelationRepository;
-
-import jakarta.servlet.http.HttpServletResponse;
-
-import java.awt.Color;
-import java.io.IOException;
-//import java.util.List;
-import java.util.Optional;
-
-// import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -35,8 +28,7 @@ import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import com.lowagie.text.pdf.draw.VerticalPositionMark;
 
-// import jakarta.annotation.PostConstruct;
-//import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Service
 public class InVoiceServiceImpl {
@@ -47,11 +39,11 @@ public class InVoiceServiceImpl {
    
     private Optional<PaymentModel> paymentdetails;
     private Optional<HealthInsurenceModel> signupDetails;
-    private Optional<RelationModel> payment;
+    private List<RelationModel> relationDetails;
 
 
     public InVoiceServiceImpl(HealthInsurenceRepository signupRepository, PaymentRepo paymentRepo,RelationRepository relationRepo,
-            Optional<PaymentModel> paymentetails, Optional<HealthInsurenceModel>  signupDetails, Optional<RelationModel> payment) {
+            Optional<PaymentModel> paymentetails, Optional<HealthInsurenceModel>  signupDetails, List<RelationModel> relationDetails) {
         this.signupRepository = signupRepository;
         this.paymentRepo = paymentRepo;
         this.paymentdetails = paymentetails;
@@ -67,8 +59,8 @@ public class InVoiceServiceImpl {
         return signupDetails;
     }
     
-    public Optional<RelationModel>  getPayment() {
-        return payment;
+    public List<RelationModel>  getRelationDetails() {
+        return relationDetails;
     }
 
     private void writeTableHeader(PdfPTable table) {
@@ -125,10 +117,7 @@ public class InVoiceServiceImpl {
 
             cell.setPhrase(new Phrase(paymentdetails.get().getEndDate()+""));
             table.addCell(cell);
-    	
-    	
     }
-    
    
     public void export(HttpServletResponse response, String paymentId) throws DocumentException, IOException {
         Document document = new Document(PageSize.A4);
@@ -140,7 +129,7 @@ public class InVoiceServiceImpl {
       
          this.paymentdetails = paymentRepo.findByPaymentId(paymentId);
          this.signupDetails = signupRepository.findByCustomerId(paymentdetails.get().getCustomerId());
-         this.payment = relationRepo.findByPaymentId(paymentId);
+         this.relationDetails = relationRepo.findByPaymentId(paymentId);
         // this.fullDetails = fullDetailRepository.findByPaymentId(paymentId);
         // this.signupDetails=signupRepository.findByCustomerId(paymentetails.getCustomerId()+"");
     
@@ -267,22 +256,77 @@ public class InVoiceServiceImpl {
             // fHeader.setAlignment(Paragraph.ALIGN_CENTER);
             // document.add(fHeader);
             
+            if (!relationDetails.isEmpty()) {
+            	
+            	Font fontP1 = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
+                fontP1.setSize(18);
+                fontP1.setColor(new Color(120, 0, 0));
+                Chunk glue1 = new Chunk(new VerticalPositionMark());
+                Paragraph pp1 = new Paragraph("\nInsured Members :", fontP1);
+                pp1.add(new Chunk(glue1));
+//                pp1.add("");
+                document.add(pp1);
+               
+             // Create a PdfPTable with 3 columns: Relation Name, Age, Disease
+                PdfPTable relationTable = new PdfPTable(3);
+                relationTable.setWidthPercentage(100f);
+                relationTable.setSpacingBefore(10);
+
+                // Add table header
+                PdfPCell cell = new PdfPCell();
+                cell.setBackgroundColor(new Color(253, 240, 213));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.setPadding(5);
+
+                Font headerFont1 = FontFactory.getFont(FontFactory.HELVETICA);
+                headerFont1.setColor(new Color(31, 53, 65));
+
+                cell.setPhrase(new Phrase("Relation Name", headerFont1));
+                relationTable.addCell(cell);
+
+                cell.setPhrase(new Phrase("Age", headerFont1));
+                relationTable.addCell(cell);
+
+                cell.setPhrase(new Phrase("Disease", headerFont1));
+                relationTable.addCell(cell);
+
+                // Loop through the relation details and add data for each relation in the same row
+                for (RelationModel relation : relationDetails) {
+                    // Add Relation Name
+                    PdfPCell nameCell = new PdfPCell(new Phrase(relation.getRelationPersonName()));
+                    nameCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    relationTable.addCell(nameCell);
+
+                    // Add Age
+                    PdfPCell ageCell = new PdfPCell(new Phrase(String.valueOf(relation.getAgeOfTheRelation())));
+                    ageCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    relationTable.addCell(ageCell);
+                    
+                    // Add Disease
+                    PdfPCell diseaseCell = new PdfPCell(new Phrase(String.valueOf(relation.getDisease())));
+                    diseaseCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    relationTable.addCell(diseaseCell);
+                }
+
+                // Add the relation table to the document
+                document.add(relationTable);
+
+            }
             
-            
-            Font fontP1 = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
-            fontP1.setSize(18);
-            fontP1.setColor(new Color(120, 0, 0));
-            Chunk glue1 = new Chunk(new VerticalPositionMark());
-            Paragraph pp1 = new Paragraph("\n", fontP1);
-            pp1.add(new Chunk(glue1));
-            pp1.add("Best Regards");
-            document.add(pp1);
+            Font fontP11 = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
+            fontP11.setSize(18);
+            fontP11.setColor(new Color(120, 0, 0));
+            Chunk glue11 = new Chunk(new VerticalPositionMark());
+            Paragraph pp11 = new Paragraph("\n", fontP11);
+            pp11.add(new Chunk(glue11));
+            pp11.add("Best Regards");
+            document.add(pp11);
 
             Font fontN1 = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
             fontN1.setSize(12);
             fontN1.setColor(Color.BLACK);
             Paragraph pN1 = new Paragraph("");
-            pN1.add(new Chunk(glue1));
+            pN1.add(new Chunk(glue11));
             pN1.add("Rs Insurance pvt ltd");
             document.add(pN1);
 
@@ -290,7 +334,7 @@ public class InVoiceServiceImpl {
             fontA1.setSize(12);
             fontA1.setColor(Color.BLACK);
             Paragraph pA1 = new Paragraph("");
-            pA1.add(new Chunk(glue1));
+            pA1.add(new Chunk(glue11));
             pA1.add("Madhapur, Hyderbad");
             document.add(pA1);
 
@@ -298,7 +342,7 @@ public class InVoiceServiceImpl {
             fontC1.setSize(12);
             fontC1.setColor(Color.BLACK);
             Paragraph pC1 = new Paragraph("");
-            pC1.add(new Chunk(glue1));
+            pC1.add(new Chunk(glue11));
             pC1.add("India, 500081\n");
             document.add(pC1);
             
@@ -308,10 +352,36 @@ public class InVoiceServiceImpl {
             Paragraph fHeader = new Paragraph("\n Thank you for choosing Rs Insurance.If any queries feel free to Contact us at support@ramanasoft.com or 1800-258-2465. \n");
             fHeader.setAlignment(Paragraph.ALIGN_CENTER);
             document.add(fHeader);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            document.close(); 
-        }
-    }
+            }catch (Exception e) {
+                System.out.println("Error while generating PDF: " + e.getMessage());
+                e.printStackTrace();
+            } finally {
+                if (document != null) {
+                    document.close();
+                }
+                
+            }
+      }
+      
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

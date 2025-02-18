@@ -137,21 +137,19 @@ public class RelationServiceImp implements RealationService {
 	public ResponseEntity<?> getPaymentById(String paymentId) {
 		try {
 
- 			Optional< RelationModel> payment = repository.findByPaymentId(paymentId);
+ 			List<RelationModel> payment = repository.findByPaymentId(paymentId);
 
  			if (payment.isEmpty()) {
 
  				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No payment found for payment ID: " + paymentId);
  			}
 
- 			return ResponseEntity.status(HttpStatus.OK).body(payment.get());
+ 			return ResponseEntity.status(HttpStatus.OK).body(payment);
  			} catch (Exception e) {
  				e.printStackTrace();
  				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while fetching the payment.");
  		}
  	}
 	
-
-
-	}
+}
 	
