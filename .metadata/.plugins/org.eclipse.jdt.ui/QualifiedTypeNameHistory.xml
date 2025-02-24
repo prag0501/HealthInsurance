@@ -3,10 +3,8 @@
     <fullyQualifiedTypeName name="org.yaml.snakeyaml.events.Event.ID"/>
     <fullyQualifiedTypeName name="com.healthinsurence.service.HealthInsurenceService"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestBody"/>
-    <fullyQualifiedTypeName name="java.util.Optional"/>
     <fullyQualifiedTypeName name="org.springframework.http.ResponseEntity"/>
     <fullyQualifiedTypeName name="org.springframework.http.HttpStatus"/>
-    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
     <fullyQualifiedTypeName name="jakarta.persistence.GenerationType"/>
     <fullyQualifiedTypeName name="org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration"/>
     <fullyQualifiedTypeName name="org.springframework.stereotype.Repository"/>
@@ -30,7 +28,6 @@
     <fullyQualifiedTypeName name="com.healthinsurence.repo.PRPRepo"/>
     <fullyQualifiedTypeName name="com.healthinsurence.repo.HealthInsurenceRepository"/>
     <fullyQualifiedTypeName name="com.lowagie.text.Element"/>
-    <fullyQualifiedTypeName name="com.lowagie.text.Document"/>
     <fullyQualifiedTypeName name="com.lowagie.text.Image"/>
     <fullyQualifiedTypeName name="com.lowagie.text.Font"/>
     <fullyQualifiedTypeName name="com.lowagie.text.List"/>
@@ -39,4 +36,11 @@
     <fullyQualifiedTypeName name="com.healthinsurence.model.PaymentModel"/>
     <fullyQualifiedTypeName name="com.healthinsurence.model.RelationModel"/>
     <fullyQualifiedTypeName name="com.healthinsurence.repo.PaymentRepo"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
+    <fullyQualifiedTypeName name="java.util.Optional"/>
+    <fullyQualifiedTypeName name="com.lowagie.text.Document"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="java.util.regex.Pattern"/>
+    <fullyQualifiedTypeName name="java.util.regex.Matcher"/>
 </qualifiedTypeNameHistroy>
