@@ -1,0 +1,208 @@
+package com.healthinsurence.serviceimplemention;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import com.healthinsurence.dto.RelationDto;
+import com.healthinsurence.model.HealthInsurenceModel;
+import com.healthinsurence.model.RelationModel;
+import com.healthinsurence.repo.HealthInsurenceRepository;
+import com.healthinsurence.repo.RelationRepository;
+import com.healthinsurence.service.RealationService;
+
+@Service
+public class RelationServiceImp implements RealationService {
+
+    @Autowired
+    private RelationRepository repository;
+
+    @Autowired
+    private HealthInsurenceRepository repo;
+    
+//    @Override
+//    public ResponseEntity<?> saveHealthInsurence(RelationDto relation) {
+//        try {
+//            // Check if the customer exists
+//            Optional<HealthInsurenceModel> customerData = repo.findByCustomerId(relation.getCustomerId());
+//
+//            if (!customerData.isPresent()) {
+//                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+//                        .body("Customer not found for the given ID: " + relation.getCustomerId());
+//            }
+//
+//            // Fetch existing relations for the customer
+//            List<RelationModel> existingRelations = repository.findByCustomerId(relation.getCustomerId());
+//
+//            // Check for duplicate relation (excluding "son" and "daughter")
+//            boolean isDuplicate = existingRelations.stream()
+//                    .anyMatch(existingRelation -> existingRelation.getRelationName().equalsIgnoreCase(relation.getRelationName())
+//                            && !relation.getRelationName().equalsIgnoreCase("son")
+//                            && !relation.getRelationName().equalsIgnoreCase("daughter"));
+//
+//            if (isDuplicate) {
+//                return ResponseEntity.status(HttpStatus.CONFLICT)
+//                        .body("Duplicate entry for '" + relation.getRelationName() + "' is not allowed.");
+//            }
+//
+//            // Count "son" and "daughter" relations
+//            long sonCount = existingRelations.stream()
+//                    .filter(r -> r.getRelationName().equalsIgnoreCase("son"))
+//                    .count();
+//            long daughterCount = existingRelations.stream()
+//                    .filter(r -> r.getRelationName().equalsIgnoreCase("daughter"))
+//                    .count();
+//
+//            if (relation.getRelationName().equalsIgnoreCase("son") && sonCount >= 4) {
+//                return ResponseEntity.status(HttpStatus.CONFLICT)
+//                        .body("A maximum of 4 'sons' can be added.");
+//            }
+//
+//            if (relation.getRelationName().equalsIgnoreCase("daughter") && daughterCount >= 4) {
+//                return ResponseEntity.status(HttpStatus.CONFLICT)
+//                        .body("A maximum of 4 'daughters' can be added.");
+//            }
+//
+//            // Save the new relation
+//            RelationModel relationModel = new RelationModel();
+//            relationModel.setCustomerId(relation.getCustomerId());
+//            relationModel.setRelationName(relation.getRelationName());
+//            relationModel.setAgeOfTheRelation(relation.getAgeOfTheRelation());
+//            relationModel.setRelationPersonName(relation.getRelationPersonName());
+//            relationModel.setDisease(relation.getDisease());
+//            relationModel.setGender(relation.getGender());
+//            relationModel.setDiseaseText(relation.getDiseaseText());
+//            relationModel.setPaymentId(relation.getPaymentId());
+//
+//            repository.save(relationModel);
+//
+//            return ResponseEntity.status(HttpStatus.CREATED)
+//                    .body("Relation saved successfully.");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("An error occurred while saving the relation: " + e.getMessage());
+//        }
+//    }
+    
+    @Override
+    public ResponseEntity<?> validateRelation(RelationDto relation) {
+        try {
+            // Check if the customer exists
+            Optional<HealthInsurenceModel> customerData = repo.findByCustomerId(relation.getCustomerId());
+
+            if (!customerData.isPresent()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("404 - Customer not found for the given ID: " + relation.getCustomerId());
+            }
+
+            // Fetch existing relations for the customer
+            List<RelationModel> existingRelations = repository.findByCustomerId(relation.getCustomerId());
+
+            // Check for duplicate relation (excluding "son" and "daughter")
+            boolean isDuplicate = existingRelations.stream()
+                    .anyMatch(existingRelation -> existingRelation.getRelationName().equalsIgnoreCase(relation.getRelationName())
+                            && !relation.getRelationName().equalsIgnoreCase("son")
+                            && !relation.getRelationName().equalsIgnoreCase("daughter"));
+
+            if (isDuplicate) {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body("409 - Duplicate entry for '" + relation.getRelationName() + "' is not allowed.");
+            }
+
+            // Count "son" and "daughter" relations
+            long sonCount = existingRelations.stream()
+                    .filter(r -> r.getRelationName().equalsIgnoreCase("son"))
+                    .count();
+            long daughterCount = existingRelations.stream()
+                    .filter(r -> r.getRelationName().equalsIgnoreCase("daughter"))
+                    .count();
+
+            if (relation.getRelationName().equalsIgnoreCase("son") && sonCount >= 4) {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body("409 - A maximum of 4 'sons' can be added.");
+            }
+
+            if (relation.getRelationName().equalsIgnoreCase("daughter") && daughterCount >= 4) {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body("409 - A maximum of 4 'daughters' can be added.");
+            }
+
+            // Simulate invalid credentials check
+            if (relation.getRelationPersonName() == null || relation.getRelationPersonName().trim().isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("400 - Enter valid credentials.");
+            }
+
+            // ✅ Passed all checks (but NOT stored in DB)
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body("200 - Valid details, but not stored in DB");
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("500 - Server is down: " + e.getMessage());
+        }
+    }
+
+
+    @Override
+    public ResponseEntity<?> getAllRelations() {
+        try {
+            List<RelationModel> relations = repository.findAll();
+            if (relations.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No relation data found.");
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(relations);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred while fetching relations: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> checkCustomerDetails(RelationDto relation) {
+        try {
+            Optional<HealthInsurenceModel> registrationData = repo.findByCustomerId(relation.getCustomerId());
+            if (registrationData.isPresent()) {
+                return saveHealthInsurence(relation);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("No customer details found for the given ID.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> customerDetails(String customerId) {
+        List<RelationModel> customerData = repository.findByCustomerId(customerId);
+
+        if (customerData.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No customer details found for the given ID: " + customerId);
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(customerData);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> getPaymentById(String paymentId) {
+        try {
+            List<RelationModel> payment = repository.findByPaymentId(paymentId);
+
+            if (payment.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No payment found for payment ID: " + paymentId);
+            }
+
+            return ResponseEntity.status(HttpStatus.OK).body(payment);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred while fetching the payment.");
+        }
+    }
+}

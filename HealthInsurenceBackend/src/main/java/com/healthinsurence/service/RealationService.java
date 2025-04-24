@@ -15,6 +15,8 @@ public interface RealationService {
 
 	ResponseEntity<?> getPaymentById(String paymentId);
 
+	ResponseEntity<?> validateRelation(RelationDto relation);
+
 
 
 	
